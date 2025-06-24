@@ -3,18 +3,17 @@ import path from 'path';
 
 await build({
   entryPoints: ['src/app.ts'],
-  outfile: 'dist/app.js',
+  outfile: 'dist/app.cjs',
   bundle: true,
   platform: 'node',
   target: 'node22',
   alias: {
     '@': path.resolve(process.cwd(), 'src'),
   },
-  format: 'esm',
-  outExtension: { '.js': '.js' },
+  format: 'cjs',
   loader: { '.ts': 'ts' },
   resolveExtensions: ['.ts', '.js'],
-  external: ['express', 'dotenv', '/^node:.*/'],
+  external: ['express', 'dotenv', 'bcrypt', 'node:*'],
   minify: true,
   sourcemap: true,
   tsconfig: 'tsconfig.json',
