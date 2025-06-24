@@ -1,0 +1,1 @@
+ALTER TABLE "operators" ADD CONSTRAINT "password" CHECK (char_length("operators"."password") >= 8);

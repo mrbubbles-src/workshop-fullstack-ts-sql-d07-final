@@ -1,0 +1,1 @@
+ALTER TABLE "operators" DROP COLUMN "5,2";

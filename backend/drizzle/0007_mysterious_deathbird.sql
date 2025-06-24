@@ -1,0 +1,1 @@
+ALTER TABLE "operators" RENAME COLUMN "5,2" TO "memoryLevel";

@@ -1,0 +1,1 @@
+ALTER TABLE "operators" ADD COLUMN "5,2" numeric DEFAULT '0.00';
