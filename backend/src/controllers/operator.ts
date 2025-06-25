@@ -112,7 +112,7 @@ export const verifyOperator = async (
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'lax',
+      sameSite: 'none',
       maxAge: 5 * 60 * 60 * 1000,
     });
 
@@ -131,7 +131,7 @@ export const logoutOperator = async (
     res.clearCookie('token', {
       httpOnly: true,
       secure: true,
-      sameSite: 'lax',
+      sameSite: 'none',
     });
     res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
