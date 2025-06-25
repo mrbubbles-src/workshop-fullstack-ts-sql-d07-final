@@ -30,9 +30,15 @@ export const getOperatorData = async (
 
   try {
     const operator = await db
-      .select()
+      .select({
+        id: operatorsTable.id,
+        operator_name: operatorsTable.operator_name,
+        role: operatorsTable.role,
+        memory_level: operatorsTable.memory_level,
+      })
       .from(operatorsTable)
-      .where(eq(operatorsTable.id, verifiedToken.id));
+      .where(eq(operatorsTable.id, verifiedToken.id))
+      .limit(1);
 
     if (operator.length === 0) {
       const error: GlobalError = new Error(
@@ -41,13 +47,11 @@ export const getOperatorData = async (
       error.statusCode = 400;
       return next(error);
     }
-
+    console.log('Operator found:', { ...operator[0] });
     res.status(200).json({
       ok: true,
       message: 'Operator is valid. They may proceed.',
-      operator_name: operator[0].operator_name,
-      role: operator[0].role,
-      memory_level: Number(operator[0].memory_level),
+      ...operator[0],
     });
   } catch (error) {
     return next(error);
