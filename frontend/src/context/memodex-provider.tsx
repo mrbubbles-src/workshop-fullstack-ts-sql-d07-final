@@ -72,6 +72,7 @@ export function MemodexProvider({ children }: MemodexProviderProps) {
         toast.error(
           'Ein Fehler ist aufgetreten. Bitte versuche es später erneut.',
         );
+        setIsLoading(false);
       }
     }, 10000);
   };

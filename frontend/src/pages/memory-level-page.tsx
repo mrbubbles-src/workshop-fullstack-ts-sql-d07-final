@@ -34,6 +34,7 @@ const MemoryLevelPage = () => {
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching operator data:', error);
+        setIsLoading(false);
       }
     };
 

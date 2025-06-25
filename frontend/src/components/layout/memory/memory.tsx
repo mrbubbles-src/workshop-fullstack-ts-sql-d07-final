@@ -41,6 +41,7 @@ const Memory = () => {
     } catch (error) {
       toast.error('Fehler beim Abrufen der Erinnerung');
       console.error('Error fetching memory data:', error);
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
