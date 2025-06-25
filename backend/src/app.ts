@@ -12,10 +12,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(
-	cors({
-		origin: ['http://localhost:5173', `${process.env.HQ}`],
-		credentials: true,
-	}),
+  cors({
+    origin: [
+      'http://localhost:5173',
+      `${process.env.HQ}`,
+      `${process.env.RENDER_ONE}`,
+      `${process.env.RENDER_TWO}`,
+      `${process.env.RENDER_THREE}`,
+    ],
+    credentials: true,
+  }),
 );
 
 const PORT = process.env.PORT || 3001;
@@ -26,5 +32,5 @@ app.use('/memories', memoriesRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-	console.log(`🫡 Server is running at: http://localhost:${PORT}`);
+  console.log(`🫡 Server is running at: http://localhost:${PORT}`);
 });
