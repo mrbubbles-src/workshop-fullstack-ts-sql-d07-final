@@ -15,10 +15,8 @@ app.use(
   cors({
     origin: [
       'http://localhost:5173',
+      'http://localhost:4173',
       `${process.env.HQ}`,
-      `${process.env.RENDER_ONE}`,
-      `${process.env.RENDER_TWO}`,
-      `${process.env.RENDER_THREE}`,
     ],
     credentials: true,
   }),
