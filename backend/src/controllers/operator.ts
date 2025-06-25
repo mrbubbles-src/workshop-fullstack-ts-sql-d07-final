@@ -11,8 +11,9 @@ export const validOperator = (
   next: NextFunction,
 ) => {
   const { operator } = req as Request & { operator?: JWTPayload };
+  console.log('Validating operator:', operator);
   if (!operator) {
-    const error: GlobalError = new Error('Invalid operator payload');
+    const error: GlobalError = new Error('Missing operator in req.body');
     error.statusCode = 400;
     return next(error);
   }

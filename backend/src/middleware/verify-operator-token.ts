@@ -8,6 +8,7 @@ export const verifyOperatorToken = (
   next: NextFunction,
 ): void => {
   const token = req.cookies?.token;
+  console.log('Verifying operator token:', token);
   if (!token) {
     return next();
   }
