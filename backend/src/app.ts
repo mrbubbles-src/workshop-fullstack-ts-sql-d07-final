@@ -2,9 +2,9 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
-import { errorHandler } from '@/middleware/error-handler.ts';
-import { router as operatorRouter } from '@/routes/operator.ts';
-import { router as memoriesRouter } from '@/routes/memories.ts';
+import { errorHandler } from './middleware/error-handler.js';
+import { router as operatorRouter } from './routes/operator.js';
+import { router as memoriesRouter } from './routes/memories.js';
 
 const app = express();
 

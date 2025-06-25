@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/app.ts",
     "build": "npm i && tsx esbuild.config.js",
-    "start": "node dist/app.cjs",
+    "start": "node dist/src/app.js",
     "tsclean": "rm -rf dist tsconfig.tsbuildinfo",
     "fullclean": "rm -rf dist node_modules package-lock.json tsconfig.tsbuildinfo",
     "lint": "eslint src --ext .ts",
