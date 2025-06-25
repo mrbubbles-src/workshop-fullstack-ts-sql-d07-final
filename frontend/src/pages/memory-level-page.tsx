@@ -18,7 +18,6 @@ const MemoryLevelPage = () => {
 
       try {
         const res = await fetch(`${import.meta.env.VITE_HQ}/operator/data`, {
-          method: 'GET',
           credentials: 'include',
         });
 
