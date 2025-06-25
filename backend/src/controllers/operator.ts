@@ -10,6 +10,7 @@ export const getOperatorData = async (
   res: Response,
   next: NextFunction,
 ) => {
+  console.log('cookies', req.cookies);
   const { token } = req.cookies;
   console.log('Validating operator token:', token);
 
