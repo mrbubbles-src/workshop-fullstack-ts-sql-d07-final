@@ -2,27 +2,42 @@ import { NextFunction, Request, Response } from 'express';
 import { operatorsTable } from '../db/schema.js';
 import { db } from '../db/index.js';
 import { eq } from 'drizzle-orm';
-import { comparePassword, createJWT } from '../lib/auth/auth.js';
+import { comparePassword, createJWT, verifyJWT } from '../lib/auth/auth.js';
 import { GlobalError, JWTPayload } from '../types/types.js';
 
-export const validOperator = (
+export const getOperatorData = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const { operator } = req as Request & { operator?: JWTPayload };
-  console.log('Validating operator:', operator);
-  if (!operator) {
-    const error: GlobalError = new Error('Missing operator in req.body');
+  const { token } = req.cookies;
+  console.log('Validating operator token:', token);
+
+  if (!token) {
+    const error: GlobalError = new Error('Missing token in cookies');
     error.statusCode = 400;
     return next(error);
   }
 
-  try {
-    const { operator_name, role, memory_level } = operator;
+  const verifiedToken = verifyJWT(token);
+  console.log('Verified token:', verifiedToken);
 
-    if (!operator_name || !role || memory_level === undefined) {
-      const error: GlobalError = new Error('Invalid operator payload');
+  if (!verifiedToken) {
+    const error: GlobalError = new Error('Invalid token');
+    error.statusCode = 401;
+    return next(error);
+  }
+
+  try {
+    const operator = await db
+      .select()
+      .from(operatorsTable)
+      .where(eq(operatorsTable.id, verifiedToken.id));
+
+    if (operator.length === 0) {
+      const error: GlobalError = new Error(
+        'Operator could not be found in the database.',
+      );
       error.statusCode = 400;
       return next(error);
     }
@@ -30,9 +45,9 @@ export const validOperator = (
     res.status(200).json({
       ok: true,
       message: 'Operator is valid. They may proceed.',
-      operator_name,
-      role,
-      memory_level: Number(memory_level),
+      operator_name: operator[0].operator_name,
+      role: operator[0].role,
+      memory_level: Number(operator[0].memory_level),
     });
   } catch (error) {
     return next(error);

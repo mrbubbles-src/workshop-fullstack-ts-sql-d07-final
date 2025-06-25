@@ -1,16 +1,15 @@
 import express from 'express';
 import {
+  getOperatorData,
   logoutOperator,
-  validOperator,
   verifyOperator,
 } from '../controllers/operator.js';
-import { verifyOperatorToken } from '../middleware/verify-operator-token.js';
 import { operatorValidationRules } from '../lib/auth/auth-rules.js';
 import { validateInputs } from '../middleware/input-validation.js';
 
 export const router = express.Router();
 
-router.route('/data').get(verifyOperatorToken, validOperator);
+router.route('/data').post(getOperatorData);
 router
   .route('/login')
   .post(validateInputs(operatorValidationRules.login), verifyOperator);

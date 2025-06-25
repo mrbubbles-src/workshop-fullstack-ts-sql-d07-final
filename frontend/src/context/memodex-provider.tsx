@@ -23,7 +23,12 @@ export function MemodexProvider({ children }: MemodexProviderProps) {
       setIsLoading(true);
       try {
         const res = await fetch(`${import.meta.env.VITE_HQ}/operator/data`, {
+          method: 'POST',
           credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({}),
         });
 
         if (res.ok) {
