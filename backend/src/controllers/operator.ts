@@ -63,7 +63,7 @@ export const verifyOperator = async (
     console.log('Verifying operator with email:', email);
     console.log('Verifying operator with password:', password);
 
-    const user = await db
+    const operator = await db
       .select({
         id: operatorsTable.id,
         operator_name: operatorsTable.operator_name,
@@ -74,14 +74,17 @@ export const verifyOperator = async (
       .from(operatorsTable)
       .where(eq(operatorsTable.email, email))
       .limit(1);
-    console.log('User found array:', user);
-    if (user.length === 0) {
+    console.log('Operator found array:', operator);
+    if (operator.length === 0) {
       const error: GlobalError = new Error('Invalid email or password');
       error.statusCode = 401;
       return next(error);
     }
-    console.log('User found:', user[0]);
-    const isPasswordValid = await comparePassword(password, user[0].password);
+    console.log('Operator found:', operator[0]);
+    const isPasswordValid = await comparePassword(
+      password,
+      operator[0].password,
+    );
     console.log('Is password valid:', isPasswordValid);
     if (!isPasswordValid) {
       const error: GlobalError = new Error('Invalid email or password');
@@ -89,7 +92,7 @@ export const verifyOperator = async (
       return next(error);
     }
 
-    const { id, operator_name, role, memory_level } = user[0];
+    const { id, operator_name, role, memory_level } = operator[0];
 
     const token = createJWT(
       {
@@ -104,7 +107,7 @@ export const verifyOperator = async (
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       maxAge: 5 * 60 * 60 * 1000,
     });
 
@@ -123,7 +126,7 @@ export const logoutOperator = async (
     res.clearCookie('token', {
       httpOnly: true,
       secure: true,
-      sameSite: 'none',
+      sameSite: 'lax',
     });
     res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
