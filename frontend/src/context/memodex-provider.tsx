@@ -22,7 +22,7 @@ export function MemodexProvider({ children }: MemodexProviderProps) {
     const checkLoginStatus = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch(`${import.meta.env.VITE_HQ}/operator`, {
+        const res = await fetch(`${import.meta.env.VITE_HQ}/operator/data`, {
           method: 'GET',
           credentials: 'include',
         });
