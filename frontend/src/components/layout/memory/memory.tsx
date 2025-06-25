@@ -28,7 +28,7 @@ const Memory = () => {
   const fetchMemory = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_HQ}/memories`, {
+      const res = await fetch(`${import.meta.env.VITE_HQ}/memories/`, {
         method: 'GET',
         credentials: 'include',
       });
