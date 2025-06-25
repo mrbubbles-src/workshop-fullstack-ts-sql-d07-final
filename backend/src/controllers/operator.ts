@@ -45,6 +45,8 @@ export const verifyOperator = async (
 ) => {
   try {
     const { email, password } = req.body;
+    console.log('Verifying operator with email:', email);
+    console.log('Verifying operator with password:', password);
 
     const user = await db
       .select({
@@ -57,15 +59,15 @@ export const verifyOperator = async (
       .from(operatorsTable)
       .where(eq(operatorsTable.email, email))
       .limit(1);
-
+    console.log('User found array:', user);
     if (user.length === 0) {
       const error: GlobalError = new Error('Invalid email or password');
       error.statusCode = 401;
       return next(error);
     }
-
+    console.log('User found:', user[0]);
     const isPasswordValid = await comparePassword(password, user[0].password);
-
+    console.log('Is password valid:', isPasswordValid);
     if (!isPasswordValid) {
       const error: GlobalError = new Error('Invalid email or password');
       error.statusCode = 401;
@@ -83,7 +85,7 @@ export const verifyOperator = async (
       } as JWTPayload,
       '5h',
     );
-
+    console.log('Generated token:', token);
     res.cookie('token', token, {
       httpOnly: true,
       secure: true,
