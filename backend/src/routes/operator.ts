@@ -13,9 +13,5 @@ export const router = express.Router();
 router.route('/data').get(verifyOperatorToken, validOperator);
 router
   .route('/login')
-  .post(
-    verifyOperatorToken,
-    validateInputs(operatorValidationRules.login),
-    verifyOperator,
-  );
+  .post(validateInputs(operatorValidationRules.login), verifyOperator);
 router.route('/logout').post(logoutOperator);
